@@ -53,7 +53,7 @@ export default function Board(){
         <div className="app-bg">
       
 
-      <SidePanelApp openApp={openApp}/>
+      <SidePanelApp openApp={openApp} windows={windows}/>
 
       {windows.map((win) => {
         const AppComponent = win.component;
