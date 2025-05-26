@@ -6,16 +6,13 @@ export default function SidePanelApp({openApp}) {
   
   const [panelOpen, setPanelOpen] = useState(false);
 
-  
   const apps = [NotepadApp];
 
   return (
     <div>
-    <div
-        className="left-trigger"
-        onMouseOver={() => setPanelOpen(true)}
-      />
-    <div
+      <div className="left-trigger" onMouseOver={() => setPanelOpen(true)} />
+      <div
+        style={{ zIndex: sidebarZINdex }}
         className={`side-panel${panelOpen ? " open" : ""}`}
         onMouseLeave={() => setPanelOpen(false)}
       >
@@ -34,10 +31,10 @@ export default function SidePanelApp({openApp}) {
         </div>
         <div className="panel-footer">
           <button className="footer-button">🪟 창 관리</button>
-          <button className="footer-button">⚙️ 설정</button> 
+          <button className="footer-button">⚙️ 설정</button>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
 
