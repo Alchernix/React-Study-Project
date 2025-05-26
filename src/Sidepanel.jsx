@@ -48,10 +48,7 @@ export default function Board(){
 
   return(
         <div className="app-bg">
-      <div
-        className="left-trigger"
-        onMouseOver={() => setPanelOpen(true)}
-      />
+      
 
       <SidePanelApp openApp={openApp}/>
 
@@ -80,7 +77,7 @@ export default function Board(){
   )
 }
 
-function SidePanelApp(openApp) {
+function SidePanelApp({openApp}) {
   
   const [panelOpen, setPanelOpen] = useState(false);
 
@@ -88,6 +85,11 @@ function SidePanelApp(openApp) {
   const apps = [NotepadApp];
 
   return (
+    <div>
+    <div
+        className="left-trigger"
+        onMouseOver={() => setPanelOpen(true)}
+      />
     <div
         className={`side-panel${panelOpen ? " open" : ""}`}
         onMouseLeave={() => setPanelOpen(false)}
@@ -109,6 +111,7 @@ function SidePanelApp(openApp) {
           <button className="footer-button">🪟 창 관리</button>
           <button className="footer-button">⚙️ 설정</button> 
         </div>
+      </div>
       </div>
   );
 }
