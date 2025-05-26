@@ -47,7 +47,9 @@ function widgetsReducer(widgets, action) {
 let nextWidgetId = 0; //todo: 저장 데이터 불러올 때 갱신 잘 하기
 
 export default function Board() {
+    //위젯 데이터
     const [widgets, dispatch] = useReducer(widgetsReducer, initialWidgets)
+    //편집모드 여부
     const [isEditMode, setIsEditMode] = useState(false)
 
     // 열었을 때 저장된 내용 불러오기
@@ -59,7 +61,6 @@ export default function Board() {
         }, [])
 
     //편집 모드 종료시 저장
-    //todo: 각각의 위젯의 size와 pos도 저장해야 함 
     const edited = useEffectEvent(() => {
         saveWidgets(widgets)
         });
@@ -70,6 +71,7 @@ export default function Board() {
         }, [isEditMode])
 
 
+    //-----
     //위젯 추가
     function handleAddWidget(widget) {
         dispatch({
@@ -83,13 +85,14 @@ export default function Board() {
     }
 
     //위젯 삭제
-    function handleAddWidget(widget) {
+    function handleDeleteWidget(widget) {
         dispatch({
             type: 'delete',
             widget: widget,
         }
         )
     }
+    //-------
 
     return (
         <div>
@@ -97,8 +100,10 @@ export default function Board() {
                 <WidgetContainer
                     key = {widget.id}
                     widget = {widget}
-                    updateWidgetStyle
-                    getNextZIndex
+                    updateWidgetStyle = {updateWidgetStyle}
+                    getNextZIndex = {getNextZIndex}
+
+                    deleteWidget = {handleDeleteWidget} //위젯 삭제 함수
                 />)
                 )}
         </div>
