@@ -100,6 +100,7 @@ export default function Board() {
     }
     //-------
 
+    //todo: 가로세로 100%로
     return (
         <div>
             {widgets.map((widget) => (

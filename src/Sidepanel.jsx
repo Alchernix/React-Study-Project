@@ -4,10 +4,8 @@ import "./Sidepanel.css";
 
 let windowIdCounter = 0;
 
-export default function SidePanelApp() {
+export default function Board(){
   const [windows, setWindows] = useState([]);
-  const [panelOpen, setPanelOpen] = useState(false);
-
   const openApp = (AppComponent) => {
     const id = `win-${windowIdCounter++}`;
     // 새로 생성되는 윈도우의 default 상태
@@ -48,37 +46,14 @@ export default function SidePanelApp() {
     setWindows((prev) => prev.filter((w) => w.id !== id));
   };
 
-  const apps = [NotepadApp];
-
-  return (
-    <div className="app-bg">
+  return(
+        <div className="app-bg">
       <div
         className="left-trigger"
         onMouseOver={() => setPanelOpen(true)}
       />
 
-      <div
-        className={`side-panel${panelOpen ? " open" : ""}`}
-        onMouseLeave={() => setPanelOpen(false)}
-      >
-        <div className="side-panel-content">
-          <div className="apps-title">앱 목록</div>
-          {apps.map((AppComponent, idx) => (
-            <button
-              key={idx}
-              className="app-button"
-              onClick={() => openApp(AppComponent)}
-            >
-              <AppComponent.Icon />
-              <span>{AppComponent.appName}</span>
-            </button>
-          ))}
-        </div>
-        <div className="panel-footer">
-          <button className="footer-button">🪟 창 관리</button>
-          <button className="footer-button">⚙️ 설정</button> 
-        </div>
-      </div>
+      <SidePanelApp openApp={openApp}/>
 
       {windows.map((win) => {
         const AppComponent = win.component;
@@ -102,6 +77,39 @@ export default function SidePanelApp() {
         );
       })}
     </div>
+  )
+}
+
+function SidePanelApp(openApp) {
+  
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  
+  const apps = [NotepadApp];
+
+  return (
+    <div
+        className={`side-panel${panelOpen ? " open" : ""}`}
+        onMouseLeave={() => setPanelOpen(false)}
+      >
+        <div className="side-panel-content">
+          <div className="apps-title">앱 목록</div>
+          {apps.map((AppComponent, idx) => (
+            <button
+              key={idx}
+              className="app-button"
+              onClick={() => openApp(AppComponent)}
+            >
+              <AppComponent.Icon />
+              <span>{AppComponent.appName}</span>
+            </button>
+          ))}
+        </div>
+        <div className="panel-footer">
+          <button className="footer-button">🪟 창 관리</button>
+          <button className="footer-button">⚙️ 설정</button> 
+        </div>
+      </div>
   );
 }
 
