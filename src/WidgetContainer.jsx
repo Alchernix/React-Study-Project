@@ -20,78 +20,56 @@ const widgets = {
   image: Image(),
 };
 
+import { Rnd } from "react-rnd";
+
 export default function WidgetContainer({
   widget,
   updateWidgetStyle,
   getNextZIndex,
 }) {
-  let isDragging = useRef(false);
-  const [position, setPosition] = useState({
-    top: parseInt(widget.style.top),
-    left: parseInt(widget.style.left),
-  });
-  const [zIndex, setZIndex] = useState(widget.style.zIndex);
-  const offset = useRef({ x: 0, y: 0 });
-
+  const { top, left, width = 300, height = 300, zIndex = 1 } = widget.style;
   const content = widgets[widget.type];
-
-  const handleMouseDown = (e) => {
-    isDragging.current = true;
-    offset.current = {
-      x: e.clientX - position.left,
-      y: e.clientY - position.top,
-    };
-    setZIndex(getNextZIndex());
-
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", handlePointerUp);
-  };
-
-  const handleMouseMove = (e) => {
-    let top = e.clientY - offset.current.y;
-    let left = e.clientX - offset.current.x;
-    top = Math.min(Math.max(top, 0), window.innerHeight - 300); // 고정 너비... 나중에 수정 예정
-    left = Math.min(Math.max(left, 0), window.innerWidth - 300);
-    if (isDragging.current) {
-      setPosition({
-        top,
-        left,
-      });
-    }
-  };
-
-  const handleMouseUp = (e) => {
-    isDragging.current = false;
-    window.removeEventListener("pointermove", handlePointerMove);
-    window.removeEventListener("pointerup", handlePointerUp);
-
-    updateWidgetStyle(widget.id, {
-      top: position.top,
-      left: position.left,
-      zIndex: zIndex,
-    });
-  };
-
-  const style = {
-    position: "absolute",
-    top: `${position.top}px`,
-    left: `${position.left}px`,
-    zIndex: zIndex,
-  };
-
   return (
-    <div
-      style={style}
+    <Rnd
       className="widget-container"
-      onPointerDown={handleMouseDown}
-      onPointerMove={handleMouseMove}
-      onPointerUp={handleMouseUp}
+      // 초기 위치/크기
+      default={{
+        x: parseInt(left, 10),
+        y: parseInt(top, 10),
+        width,
+        height,
+      }}
+      // 바운드(창 밖으로 못 나가게)
+      bounds="window"
+      // 드래그 시작 시 z-index 업데이트
+      onDragStart={() => {
+        const nextZ = getNextZIndex();
+        updateWidgetStyle(widget.id, { ...widget.style, zIndex: nextZ });
+      }}
+      // 드래그 끝난 후 최종 위치 저장
+      onDragStop={(e, d) => {
+        updateWidgetStyle(widget.id, {
+          ...widget.style,
+          top: `${d.y}px`,
+          left: `${d.x}px`,
+        });
+      }}
+      // 리사이즈 끝난 후 최종 크기+위치 저장
+      onResizeStop={(e, direction, ref, delta, position) => {
+        updateWidgetStyle(widget.id, {
+          ...widget.style,
+          width: parseInt(ref.style.width, 10),
+          height: parseInt(ref.style.height, 10),
+          top: `${position.y}px`,
+          left: `${position.x}px`,
+        });
+      }}
+      style={{ zIndex }}
     >
       <div className="widget-content">{content}</div>
-    </div>
+    </Rnd>
   );
 }
-
 // 테스트용 위젯들 - 나중에는 각 파일에서 관리예정
 function Text() {
   return <div>This is text widget!</div>;
