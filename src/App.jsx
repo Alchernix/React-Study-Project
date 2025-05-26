@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useRef } from "react";
+import WidgetContainer from "./WidgetContainer";
+import { widget, widget2 } from "./WidgetContainer"; // 테스트용 - 나중에는 보드에서 관리
+// import "./App.css";
+
+// 나중에 위젯 컨테이너를 보드에서 리스트로 관리하고 map으로 돌면서서 랜더링하게 바꿔 주세요...
+const initialBoard = [widget, widget2];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [board, setBoard] = useState(initialBoard);
+  // zIndex의 최댓값(가장 위에 있는 위젯의 zIndex)
+  const maxZIndex = useRef(
+    Math.max(...board.map((widget) => widget.style.zIndex))
+  );
+  // zIndex 최댓값 + 1 반환 - 드래그 시 사용
+  function getNextZIndex() {
+    maxZIndex.current += 1;
+    return maxZIndex.current;
+  }
+
+  // 위젯 위치, z-index 업데이트해주는 함수...
+  function updateWidgetStyle(id, style) {
+    setBoard(
+      board.map((widget) => {
+        if (widget.id === id) {
+          return { ...widget, style: style };
+        } else {
+          return widget;
+        }
+      })
+    );
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {board.map((widget) => (
+        <WidgetContainer
+          key={widget.id}
+          widget={widget}
+          updateWidgetStyle={updateWidgetStyle}
+          getNextZIndex={getNextZIndex}
+        />
+      ))}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
