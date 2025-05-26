@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import { useReducer } from 'react'
+import { useState, useRef, useReducer } from 'react'
+import { createContext } from 'react'
 import { useEffect, useEffectEvent } from 'react'
+//저장, 불러오기, 위젯 추가&삭제, 편집 모드
 
 //기본 위젯들
 const initialWidgets = []
@@ -43,10 +44,8 @@ function widgetsReducer(widgets, action) {
     }
   }
 
-
-let nextWidgetId = 0; //todo: 저장 데이터 불러올 때 갱신 잘 하기
-
 export default function Board() {
+    const nextWidgetId = useRef(0);
     //위젯 데이터
     const [widgets, dispatch] = useReducer(widgetsReducer, initialWidgets)
     //편집모드 여부
@@ -54,9 +53,11 @@ export default function Board() {
 
     // 열었을 때 저장된 내용 불러오기
     useEffect(() => {
+        const t = loadWidgets()
+        nextWidgetId.current = Math.max(...t.map(item => item.id))
         dispatch({
             type: 'lode',
-            data: loadWidgets()
+            data: t
         })
         }, [])
 
@@ -72,12 +73,17 @@ export default function Board() {
 
 
     //-----
+    //편집 모드 토글
+    function toggleEditMode(){
+        setIsEditMode(!isEditMode)
+    }
+
     //위젯 추가
     function handleAddWidget(widget) {
         dispatch({
             type: 'add',
             widget: {
-                id:nextWidgetId++,
+                id:nextWidgetId.current++,
                 type: widget.type,
                 style: widget.style,
             },
