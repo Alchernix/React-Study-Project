@@ -4,7 +4,7 @@ import "./Sidepanel.css";
 
 let windowIdCounter = 0;
 
-export default function Board(){
+export default function Board() {
   const [windows, setWindows] = useState([]);
   const openApp = (AppComponent) => {
     const id = `win-${windowIdCounter++}`;
@@ -46,11 +46,11 @@ export default function Board(){
     setWindows((prev) => prev.filter((w) => w.id !== id));
   };
 
-  return(
-        <div className="app-bg">
-      
+  const sidebarZINdex = Math.max(...windows.map((w) => w.zIndex)) + 1;
 
-      <SidePanelApp openApp={openApp}/>
+  return (
+    <div className="app-bg">
+      <SidePanelApp openApp={openApp} sidebarZINdex={sidebarZINdex} />
 
       {windows.map((win) => {
         const AppComponent = win.component;
@@ -74,23 +74,19 @@ export default function Board(){
         );
       })}
     </div>
-  )
+  );
 }
 
-function SidePanelApp({openApp}) {
-  
+function SidePanelApp({ openApp, sidebarZINdex }) {
   const [panelOpen, setPanelOpen] = useState(false);
 
-  
   const apps = [NotepadApp];
 
   return (
     <div>
-    <div
-        className="left-trigger"
-        onMouseOver={() => setPanelOpen(true)}
-      />
-    <div
+      <div className="left-trigger" onMouseOver={() => setPanelOpen(true)} />
+      <div
+        style={{ zIndex: sidebarZINdex }}
         className={`side-panel${panelOpen ? " open" : ""}`}
         onMouseLeave={() => setPanelOpen(false)}
       >
@@ -109,10 +105,10 @@ function SidePanelApp({openApp}) {
         </div>
         <div className="panel-footer">
           <button className="footer-button">🪟 창 관리</button>
-          <button className="footer-button">⚙️ 설정</button> 
+          <button className="footer-button">⚙️ 설정</button>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
 
@@ -142,8 +138,14 @@ function Window({
         onDrag(id, e.clientX - offset.x, e.clientY - offset.y);
       }
       if (resizing) {
-        const newWidth = Math.max(200, startSize.width + (e.clientX - startPos.x));
-        const newHeight = Math.max(150, startSize.height + (e.clientY - startPos.y));
+        const newWidth = Math.max(
+          200,
+          startSize.width + (e.clientX - startPos.x)
+        );
+        const newHeight = Math.max(
+          150,
+          startSize.height + (e.clientY - startPos.y)
+        );
         onResize(id, newWidth, newHeight);
       }
     };
@@ -177,9 +179,7 @@ function Window({
         <span>{title}</span>
         <button onClick={() => onClose(id)}>×</button>
       </div>
-      <div className="window-content">
-        {children}
-      </div>
+      <div className="window-content">{children}</div>
       <div
         className="resizer"
         onMouseDown={(e) => {
