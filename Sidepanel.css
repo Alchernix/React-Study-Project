@@ -1,0 +1,161 @@
+
+.left-trigger {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 200px;
+  background: lightgray !important;
+  border-radius: 0 16px 16px 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 20;
+}
+
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #fff;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08);
+  z-index: 30;
+  transition: width 0.3s;
+  overflow: hidden;
+  width: 0;
+}
+
+.side-panel.open {
+  width: 250px; 
+}
+
+.side-panel-content {
+  padding: 24px 16px;
+  overflow: hidden;
+}
+
+.apps-title {
+  font-weight: bold;
+  margin-bottom: 18px;
+  color: #374151;
+  font-size: 1.05rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.app-button span {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
+}
+
+.app-button:hover {
+  background: #e0e7ff;
+}
+
+
+.panel-footer {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-footer .footer-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.panel-footer .footer-button:hover {
+  background: #e0e7ff;
+}
+
+
+.draggable-window {
+  position: absolute;
+  background: white;
+  border: 1px solid gray;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.title-bar {
+  background: #aacddc;
+  color: white;
+  padding: 6px 10px;
+  cursor: move;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15px;
+}
+
+.title-bar button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.window-content {
+  padding: 10px;
+  height: calc(100% - 30px);
+  overflow: auto;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  background: rgba(0,0,0,0.2);
+}
+
+.main-app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
