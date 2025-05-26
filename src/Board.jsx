@@ -1,7 +1,88 @@
 import { useState, useRef, useReducer } from 'react'
 import { createContext } from 'react'
 import { useEffect, useEffectEvent } from 'react'
-//저장, 불러오기, 위젯 추가&삭제, 편집 모드
+import "./Sidepanel.css";
+import SidePanelApp  from './Sidepanel'
+import Window from './WidgetContainer';
+
+let windowIdCounter = 0;
+
+export default function Board(){
+  const [windows, setWindows] = useState([]);
+  const openApp = (AppComponent) => {
+    const id = `win-${windowIdCounter++}`;
+    // 새로 생성되는 윈도우의 default 상태
+    const newWindow = {
+      id,
+      component: AppComponent,
+      x: 100 + windows.length * 30,
+      y: 100 + windows.length * 30,
+      width: 400,
+      height: 300,
+      zIndex: windows.length + 1,
+    };
+    setWindows((prev) => [...prev, newWindow]);
+  };
+
+  const bringToFront = (id) => {
+    const maxZ = Math.max(...windows.map((w) => w.zIndex));
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, zIndex: maxZ + 1 } : w))
+    );
+  };
+
+  const moveWindow = (id, newX, newY) => {
+    setWindows((prev) =>
+      prev.map((w) => (w.id === id ? { ...w, x: newX, y: newY } : w))
+    );
+  };
+
+  const resizeWindow = (id, newWidth, newHeight) => {
+    setWindows((prev) =>
+      prev.map((w) =>
+        w.id === id ? { ...w, width: newWidth, height: newHeight } : w
+      )
+    );
+  };
+
+  const closeWindow = (id) => {
+    setWindows((prev) => prev.filter((w) => w.id !== id));
+  };
+
+  return(
+        <div className="app-bg">
+      
+
+      <SidePanelApp openApp={openApp}/>
+
+      {windows.map((win) => {
+        const AppComponent = win.component;
+        return (
+          <Window
+            key={win.id}
+            id={win.id}
+            x={win.x}
+            y={win.y}
+            width={win.width}
+            height={win.height}
+            zIndex={win.zIndex}
+            title={AppComponent.appName}
+            onDrag={moveWindow}
+            onResize={resizeWindow}
+            onFocus={bringToFront}
+            onClose={closeWindow}
+          >
+            <AppComponent />
+          </Window>
+        );
+      })}
+    </div>
+  )
+}
+
+
+
+//추후 수정 예정
 
 //기본 위젯들
 const initialWidgets = []
@@ -44,7 +125,7 @@ function widgetsReducer(widgets, action) {
     }
   }
 
-export default function Board() {
+function tmp() {
     const nextWidgetId = useRef(0);
     //위젯 데이터
     const [widgets, dispatch] = useReducer(widgetsReducer, initialWidgets)

@@ -1,83 +1,78 @@
-import { useState, useRef, useContext } from "react";
-//import { Rnd } from "react-rnd";
-import "./WidgetContainer.css";
+import React, { useState, useEffect } from "react";
+import "./Sidepanel.css";
 
-// 각 노트 객체 형식...
-const widget = {
-  id: 1,
-  type: "text",
-  style: { top: "50px", left: "50px", zIndex: 1 },
-};
-
-const widget2 = {
-  id: 2,
-  type: "image",
-  style: { top: "200px", left: "200px", zIndex: 2 },
-};
-
-// 타입과 컴포넌트 연결
-const widgets = {
-  text: Text(),
-  image: Image(),
-};
-
-import { Rnd } from "react-rnd";
-
-export default function WidgetContainer({
-  widget,
-  updateWidgetStyle,
-  getNextZIndex,
+export default function Window({
+  id,
+  x,
+  y,
+  width,
+  height,
+  zIndex,
+  title,
+  children,
+  onDrag,
+  onResize,
+  onFocus,
+  onClose,
 }) {
-  const { top, left, width = 300, height = 300, zIndex = 1 } = widget.style;
-  const content = widgets[widget.type];
+  const [dragging, setDragging] = useState(false);
+  const [resizing, setResizing] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [startSize, setStartSize] = useState({ width, height });
+  const [startPos, setStartPos] = useState({ x, y });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (dragging) {
+        onDrag(id, e.clientX - offset.x, e.clientY - offset.y);
+      }
+      if (resizing) {
+        const newWidth = Math.max(200, startSize.width + (e.clientX - startPos.x));
+        const newHeight = Math.max(150, startSize.height + (e.clientY - startPos.y));
+        onResize(id, newWidth, newHeight);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setDragging(false);
+      setResizing(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, resizing, offset, startPos, startSize]);
+
   return (
-    <Rnd
-      className="widget-container"
-      // 초기 위치/크기
-      default={{
-        x: parseInt(left, 10),
-        y: parseInt(top, 10),
-        width,
-        height,
-      }}
-      // 바운드(창 밖으로 못 나가게)
-      bounds="window"
-      // 드래그 시작 시 z-index 업데이트
-      onDragStart={() => {
-        const nextZ = getNextZIndex();
-        updateWidgetStyle(widget.id, { ...widget.style, zIndex: nextZ });
-      }}
-      // 드래그 끝난 후 최종 위치 저장
-      onDragStop={(e, d) => {
-        updateWidgetStyle(widget.id, {
-          ...widget.style,
-          top: `${d.y}px`,
-          left: `${d.x}px`,
-        });
-      }}
-      // 리사이즈 끝난 후 최종 크기+위치 저장
-      onResizeStop={(e, direction, ref, delta, position) => {
-        updateWidgetStyle(widget.id, {
-          ...widget.style,
-          width: parseInt(ref.style.width, 10),
-          height: parseInt(ref.style.height, 10),
-          top: `${position.y}px`,
-          left: `${position.x}px`,
-        });
-      }}
-      style={{ zIndex }}
+    <div
+      className="draggable-window"
+      style={{ left: x, top: y, width, height, zIndex }}
+      onMouseDown={() => onFocus(id)}
     >
-      <div className="widget-content">{content}</div>
-    </Rnd>
+      <div
+        className="title-bar"
+        onMouseDown={(e) => {
+          setDragging(true);
+          setOffset({ x: e.clientX - x, y: e.clientY - y });
+        }}
+      >
+        <span>{title}</span>
+        <button onClick={() => onClose(id)}>×</button>
+      </div>
+      <div className="window-content">
+        {children}
+      </div>
+      <div
+        className="resizer"
+        onMouseDown={(e) => {
+          setResizing(true);
+          setStartSize({ width, height });
+          setStartPos({ x: e.clientX, y: e.clientY });
+        }}
+      />
+    </div>
   );
 }
-// 테스트용 위젯들 - 나중에는 각 파일에서 관리예정
-function Text() {
-  return <div>This is text widget!</div>;
-}
-
-function Image() {
-  return <img src="#"></img>;
-}
-
-export { widget, widget2 }; // 테스트용
