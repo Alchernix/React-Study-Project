@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import WidgetContainer from "./WidgetContainer";
 import { widget, widget2 } from "./WidgetContainer"; // 테스트용 - 나중에는 보드에서 관리
+import SidePanelApp from "./Sidepanel.jsx";
 // import "./App.css";
 
 // 나중에 위젯 컨테이너를 보드에서 리스트로 관리하고 map으로 돌면서서 랜더링하게 바꿔 주세요...
@@ -33,14 +34,7 @@ function App() {
 
   return (
     <>
-      {board.map((widget) => (
-        <WidgetContainer
-          key={widget.id}
-          widget={widget}
-          updateWidgetStyle={updateWidgetStyle}
-          getNextZIndex={getNextZIndex}
-        />
-      ))}
+      <SidePanelApp />
     </>
   );
 }

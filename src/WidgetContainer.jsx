@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from "react";
+//import { Rnd } from "react-rnd";
 import "./WidgetContainer.css";
 
 // 각 노트 객체 형식...
