@@ -1,9 +1,8 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import NotepadApp from "./apps/NotepadApp";
 import "./Sidepanel.css";
 
-export default function SidePanelApp({openApp, windows}) {
-  
+export default function SidePanelApp({ openApp, windows }) {
   const [panelOpen, setPanelOpen] = useState(false);
 
   const apps = [NotepadApp];
@@ -11,7 +10,10 @@ export default function SidePanelApp({openApp, windows}) {
   const sidebarZINdex = Math.max(...windows.map((w) => w.zIndex)) + 1;
   return (
     <div>
-      <div className="left-trigger" onMouseOver={() => setPanelOpen(true)} />
+      <div
+        className={`left-trigger ${panelOpen ? "none" : ""}`}
+        onMouseOver={() => setPanelOpen(true)}
+      />
       <div
         style={{ zIndex: sidebarZINdex }}
         className={`side-panel${panelOpen ? " open" : ""}`}
@@ -38,4 +40,3 @@ export default function SidePanelApp({openApp, windows}) {
     </div>
   );
 }
-
