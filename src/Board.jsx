@@ -61,7 +61,7 @@ export default function Board() {
       y: 100 + windows.length * 30,
       width: 400,
       height: 300,
-      zIndex: windows.length + 1,
+      zIndex: Math.max(...windows.map((w) => w.zIndex)) + 1,
     };
     const newWindows = [...windows, newWindow];
     saveWidgets(newWindows); //새 위젯 추가시 저장
