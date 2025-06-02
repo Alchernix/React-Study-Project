@@ -14,6 +14,7 @@ export default function Window({
   onResize,
   onFocus,
   onClose,
+  onMouseUp,
 }) {
   const [dragging, setDragging] = useState(false);
   const [resizing, setResizing] = useState(false);
@@ -36,6 +37,7 @@ export default function Window({
     const handleMouseUp = () => {
       setDragging(false);
       setResizing(false);
+      onMouseUp(); //위치 크기 변경시 저장
     };
 
     window.addEventListener("mousemove", handleMouseMove);

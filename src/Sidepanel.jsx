@@ -5,7 +5,10 @@ import "./Sidepanel.css";
 export default function SidePanelApp({ openApp, windows }) {
   const [panelOpen, setPanelOpen] = useState(false);
 
-  const apps = [NotepadApp];
+  const apps = ['NotepadApp'];
+  const apps_map = {
+    'NotepadApp' : NotepadApp,
+  }
 
   const sidebarZINdex = Math.max(...windows.map((w) => w.zIndex)) + 1;
   return (
@@ -21,16 +24,18 @@ export default function SidePanelApp({ openApp, windows }) {
       >
         <div className="side-panel-content">
           <div className="apps-title">앱 목록</div>
-          {apps.map((AppComponent, idx) => (
+          {apps.map((app, idx) => {
+            const AppComponent = apps_map[app];
+            return (
             <button
               key={idx}
               className="app-button"
-              onClick={() => openApp(AppComponent)}
+              onClick={() => openApp(app)}
             >
               <AppComponent.Icon />
               <span>{AppComponent.appName}</span>
             </button>
-          ))}
+          )})}
         </div>
         <div className="panel-footer">
           <button className="footer-button">🪟 창 관리</button>
