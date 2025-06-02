@@ -1,0 +1,124 @@
+/* body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://images.unsplash.com/photo-1641895949711-4269f58f2b5c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  color: whitesmoke;
+} */
+
+.container {
+  container-type: inline-size;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 25px; */
+  /* background-color: rgba(189, 224, 254, 0.3); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px 30px 10px;
+  justify-content: space-between;
+}
+
+/* input {
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  color: #222;
+}
+
+.search-btn {
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #a2d2ff;
+  color: #222;
+} */
+
+.city-name {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.condition {
+  font-size: 25px;
+}
+
+.weather-img {
+  width: 30%;
+}
+
+.temperature {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.temperature::after {
+  content: "°C";
+}
+
+.detail-container {
+  width: 100%;
+  display: flex;
+  font-size: 17px;
+}
+
+.detail {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail i {
+  color: #a2d2ff;
+  font-size: 30px;
+}
+
+.humidity,
+.windspeed {
+  font-weight: bold;
+}
+
+.humidity::after {
+  content: "%";
+}
+
+.windspeed::after {
+  content: "Km/H";
+}
+
+@container (min-width: 300px) {
+  .city-name {
+    font-size: 40px;
+  }
+
+  .condition {
+    font-size: 30px;
+  }
+
+  .temperature {
+    font-size: 50px;
+  }
+
+  .detail-container {
+    font-size: 20px;
+  }
+
+  .detail i {
+    font-size: 30px;
+  }
+
+  .time {
+    font-size: 20px;
+  }
+}

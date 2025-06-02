@@ -1,53 +1,55 @@
-import { useState, useRef, useReducer } from 'react'
-import { createContext } from 'react'
-import { useEffect, useEffectEvent } from 'react'
+import { useState, useRef, useReducer } from "react";
+import { createContext } from "react";
+import { useEffect, useEffectEvent } from "react";
 import "./Sidepanel.css";
-import SidePanelApp  from './Sidepanel'
-import Window from './WidgetContainer';
+import SidePanelApp from "./Sidepanel";
+import Window from "./WidgetContainer";
 
 import NotepadApp from "./apps/NotepadApp";
+import WeatherApp from "./apps/WeatherApp";
 
 //테스트용
-function clean_save(){
-  localStorage.removeItem('Board')
+function clean_save() {
+  localStorage.removeItem("Board");
 }
 //clean_save()
 
 const apps_map = {
-  'NotepadApp' : NotepadApp,
-}
+  NotepadApp: NotepadApp,
+  WeatherApp: WeatherApp,
+};
 
 //위젯 위치 저장
-function saveWidgets(widgets){
-    localStorage.setItem('Board', JSON.stringify(widgets))
-    console.log(JSON.parse(localStorage.getItem('Board') || '[]'))
+function saveWidgets(widgets) {
+  localStorage.setItem("Board", JSON.stringify(widgets));
+  // console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
 }
 
 //위젯 위치 불러오기
-function loadWidgets(){
-    return JSON.parse(localStorage.getItem('Board') || '[]')
+function loadWidgets() {
+  return JSON.parse(localStorage.getItem("Board") || "[]");
 }
 
-export default function Board(){
+export default function Board() {
   const [windows, setWindows] = useState([]);
   const windowIdCounter = useRef(0);
 
   //저장 데이터 불러오기
   useEffect(() => {
-    const t = loadWidgets()
-    if ( t.length == 0) {
-      windowIdCounter.current = 0
-    } else{
-      let id = t.map(item => Number(item.id.replace(/\D/g,"")))
-      windowIdCounter.current = Math.max(...id) + 1
+    const t = loadWidgets();
+    if (t.length == 0) {
+      windowIdCounter.current = 0;
+    } else {
+      let id = t.map((item) => Number(item.id.replace(/\D/g, "")));
+      windowIdCounter.current = Math.max(...id) + 1;
     }
-    setWindows((w) => t)
-    }, [])
+    setWindows((w) => t);
+  }, []);
 
   //위치/ 크기 변경시 저장용
   const saveEdit = () => {
-      saveWidgets(windows)
-      }
+    saveWidgets(windows);
+  };
 
   const openApp = (appComponent) => {
     const id = `win-${windowIdCounter.current++}`;
@@ -61,8 +63,8 @@ export default function Board(){
       height: 300,
       zIndex: windows.length + 1,
     };
-    const newWindows = [...windows, newWindow]
-    saveWidgets(newWindows) //새 위젯 추가시 저장
+    const newWindows = [...windows, newWindow];
+    saveWidgets(newWindows); //새 위젯 추가시 저장
     setWindows((prev) => [...prev, newWindow]);
   };
 
@@ -88,16 +90,14 @@ export default function Board(){
   };
 
   const closeWindow = (id) => {
-    const newWindows = windows.filter((w) => w.id !== id)
-    saveWidgets(newWindows)
+    const newWindows = windows.filter((w) => w.id !== id);
+    saveWidgets(newWindows);
     setWindows((prev) => newWindows);
   };
 
-  return(
-        <div className="app-bg">
-      
-
-      <SidePanelApp openApp={openApp} windows={windows}/>
+  return (
+    <div className="app-bg">
+      <SidePanelApp openApp={openApp} windows={windows} />
 
       {windows.map((win) => {
         const AppComponent = apps_map[win.component];
@@ -122,5 +122,5 @@ export default function Board(){
         );
       })}
     </div>
-  )
+  );
 }
