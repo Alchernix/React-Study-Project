@@ -7,8 +7,6 @@ import Window from './WidgetContainer';
 
 import NotepadApp from "./apps/NotepadApp";
 
-let windowIdCounter = 0;
-
 //테스트용
 function clean_save(){
   localStorage.removeItem('Board')
@@ -32,15 +30,16 @@ function loadWidgets(){
 
 export default function Board(){
   const [windows, setWindows] = useState([]);
+  const windowIdCounter = useRef(0);
 
   //저장 데이터 불러오기
   useEffect(() => {
     const t = loadWidgets()
     if ( t.length == 0) {
-      windowIdCounter = 0
+      windowIdCounter.current = 0
     } else{
-      let id = t.map(item => item.id)
-      windowIdCounter = Math.max(id)
+      let id = t.map(item => Number(item.id.replace(/\D/g,"")))
+      windowIdCounter.current = Math.max(...id) + 1
     }
     setWindows((w) => t)
     }, [])
@@ -51,7 +50,7 @@ export default function Board(){
       }
 
   const openApp = (appComponent) => {
-    const id = `win-${windowIdCounter++}`;
+    const id = `win-${windowIdCounter.current++}`;
     // 새로 생성되는 윈도우의 default 상태
     const newWindow = {
       id,
@@ -89,7 +88,9 @@ export default function Board(){
   };
 
   const closeWindow = (id) => {
-    setWindows((prev) => prev.filter((w) => w.id !== id));
+    const newWindows = windows.filter((w) => w.id !== id)
+    saveWidgets(newWindows)
+    setWindows((prev) => newWindows);
   };
 
   return(

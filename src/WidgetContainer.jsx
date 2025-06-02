@@ -37,7 +37,6 @@ export default function Window({
     const handleMouseUp = () => {
       setDragging(false);
       setResizing(false);
-      onMouseUp(); //위치 크기 변경시 저장
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -47,6 +46,9 @@ export default function Window({
       window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [dragging, resizing, offset, startPos, startSize]);
+
+  useEffect(() => {if(!dragging && !resizing)onMouseUp(); //위치 크기 변경시 저장
+    }, [dragging, resizing])
 
   return (
     <div
