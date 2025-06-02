@@ -25,11 +25,25 @@ export default function Window({
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (dragging) {
-        onDrag(id, e.clientX - offset.x, e.clientY - offset.y);
+        const newX = Math.min(
+          Math.max(e.clientX - offset.x, 0),
+          window.innerWidth - width
+        );
+        const newY = Math.min(
+          Math.max(e.clientY - offset.y, 0),
+          window.innerHeight - height
+        );
+        onDrag(id, newX, newY);
       }
       if (resizing) {
-        const newWidth = Math.max(200, startSize.width + (e.clientX - startPos.x));
-        const newHeight = Math.max(150, startSize.height + (e.clientY - startPos.y));
+        const newWidth = Math.max(
+          200,
+          startSize.width + (e.clientX - startPos.x)
+        );
+        const newHeight = Math.max(
+          150,
+          startSize.height + (e.clientY - startPos.y)
+        );
         onResize(id, newWidth, newHeight);
       }
     };
@@ -47,8 +61,9 @@ export default function Window({
     };
   }, [dragging, resizing, offset, startPos, startSize]);
 
-  useEffect(() => {if(!dragging && !resizing)onMouseUp(); //위치 크기 변경시 저장
-    }, [dragging, resizing])
+  useEffect(() => {
+    if (!dragging && !resizing) onMouseUp(); //위치 크기 변경시 저장
+  }, [dragging, resizing]);
 
   return (
     <div
@@ -66,9 +81,7 @@ export default function Window({
         <span>{title}</span>
         <button onClick={() => onClose(id)}>×</button>
       </div>
-      <div className="window-content">
-        {children}
-      </div>
+      <div className="window-content">{children}</div>
       <div
         className="resizer"
         onMouseDown={(e) => {
