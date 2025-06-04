@@ -8,6 +8,7 @@ import Window from "./WidgetContainer";
 import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
 import YouTubeApp from "./apps/YouTubeApp";
+import ToDoListApp from "./apps/ToDoListApp"
 
 //테스트용
 function clean_save() {
@@ -19,6 +20,7 @@ const apps_map = {
   NotepadApp: NotepadApp,
   WeatherApp: WeatherApp,
   YouTubeApp: YouTubeApp,
+  ToDoListApp: ToDoListApp,
 };
 
 //위젯 위치 저장
@@ -104,7 +106,7 @@ export default function Board() {
 
       {windows.map((win) => {
         const AppComponent = apps_map[win.component];
-        console.log(AppComponent);
+        //console.log(AppComponent);
         return (
           <Window
             key={win.id}
