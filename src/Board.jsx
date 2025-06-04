@@ -7,6 +7,7 @@ import Window from "./WidgetContainer";
 
 import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
+import YouTubeApp from "./apps/YouTubeApp";
 
 //테스트용
 function clean_save() {
@@ -17,6 +18,7 @@ function clean_save() {
 const apps_map = {
   NotepadApp: NotepadApp,
   WeatherApp: WeatherApp,
+  YouTubeApp: YouTubeApp,
 };
 
 //위젯 위치 저장
@@ -117,7 +119,11 @@ export default function Board() {
             onClose={closeWindow}
             onMouseUp={saveEdit}
           >
-            <AppComponent />
+            <AppComponent 
+              width={win.width}
+              height={win.height}
+              onResize={(w, h) => resizeWindow(win.id, w, h)}
+            />
           </Window>
         );
       })}
