@@ -24,7 +24,7 @@ const apps_map = {
 //위젯 위치 저장
 function saveWidgets(widgets) {
   localStorage.setItem("Board", JSON.stringify(widgets));
-  // console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
+//  console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
 }
 
 //위젯 위치 불러오기

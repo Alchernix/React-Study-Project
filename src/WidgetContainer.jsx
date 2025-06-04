@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Sidepanel.css";
 
 export default function Window({
@@ -21,6 +21,8 @@ export default function Window({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [startSize, setStartSize] = useState({ width, height });
   const [startPos, setStartPos] = useState({ x, y });
+
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -61,8 +63,10 @@ export default function Window({
     };
   }, [dragging, resizing, offset, startPos, startSize]);
 
+  useEffect(() => {isFirstRender.current = true}, [])
   useEffect(() => {
-    if (!dragging && !resizing) onMouseUp(); //위치 크기 변경시 저장
+    if (isFirstRender.current) isFirstRender.current = false
+    else if (!dragging && !resizing) onMouseUp(); //위치 크기 변경시 저장
   }, [dragging, resizing]);
 
   return (
