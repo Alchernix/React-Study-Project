@@ -1,6 +1,6 @@
-import { useState, useRef, useReducer } from "react";
+import { useState, useRef, useEffect} from "react";
 import { createContext } from "react";
-import { useEffect, useEffectEvent } from "react";
+
 import "./Sidepanel.css";
 import SidePanelApp from "./Sidepanel";
 import Window from "./WidgetContainer";
