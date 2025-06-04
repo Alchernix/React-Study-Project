@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import { createContext } from "react";
 
 import "./Sidepanel.css";
@@ -24,7 +24,7 @@ const apps_map = {
 //위젯 위치 저장
 function saveWidgets(widgets) {
   localStorage.setItem("Board", JSON.stringify(widgets));
-//  console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
+  //  console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
 }
 
 //위젯 위치 불러오기
@@ -55,14 +55,15 @@ export default function Board() {
 
   const openApp = (appComponent) => {
     const id = `win-${windowIdCounter.current++}`;
+    const AppComponent = apps_map[appComponent];
     // 새로 생성되는 윈도우의 default 상태
     const newWindow = {
       id,
       component: appComponent,
       x: 100 + windows.length * 30,
       y: 100 + windows.length * 30,
-      width: 400,
-      height: 300,
+      width: AppComponent.defaultWidth || 400,
+      height: AppComponent.defaultHeight || 300,
       zIndex: Math.max(...windows.map((w) => w.zIndex)) + 1,
     };
     const newWindows = [...windows, newWindow];
@@ -103,6 +104,7 @@ export default function Board() {
 
       {windows.map((win) => {
         const AppComponent = apps_map[win.component];
+        console.log(AppComponent);
         return (
           <Window
             key={win.id}
@@ -119,7 +121,7 @@ export default function Board() {
             onClose={closeWindow}
             onMouseUp={saveEdit}
           >
-            <AppComponent 
+            <AppComponent
               width={win.width}
               height={win.height}
               onResize={(w, h) => resizeWindow(win.id, w, h)}
