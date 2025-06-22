@@ -9,6 +9,7 @@ import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
 import YouTubeApp from "./apps/YouTubeApp";
 import ToDoListApp from "./apps/ToDoListApp";
+import LifeQuotesApp from "./apps/LifeQuotesApp";
 
 //테스트용
 function clean_save() {
@@ -21,6 +22,7 @@ const apps_map = {
   WeatherApp: WeatherApp,
   YouTubeApp: YouTubeApp,
   ToDoListApp: ToDoListApp,
+  LifeQuotesApp: LifeQuotesApp,
 };
 
 //위젯 위치 저장

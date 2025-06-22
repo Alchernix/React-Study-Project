@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
 import YouTubeApp from "./apps/YouTubeApp";
-import ToDoListApp from "./apps/ToDoListApp"
+import ToDoListApp from "./apps/ToDoListApp";
+import LifeQuotesApp from "./apps/LifeQuotesApp";
 import "./Sidepanel.css";
 
 export default function SidePanelApp({ openApp, windows }) {
   const [panelOpen, setPanelOpen] = useState(false);
 
-  const apps = ["NotepadApp", "WeatherApp", "YouTubeApp", "ToDoListApp"];
+  const apps = [
+    "NotepadApp",
+    "WeatherApp",
+    "YouTubeApp",
+    "ToDoListApp",
+    "LifeQuotesApp",
+  ];
   const apps_map = {
     NotepadApp: NotepadApp,
     WeatherApp: WeatherApp,
     YouTubeApp: YouTubeApp,
     ToDoListApp: ToDoListApp,
+    LifeQuotesApp: LifeQuotesApp,
   };
 
   const sidebarZINdex = Math.max(...windows.map((w) => w.zIndex)) + 1;

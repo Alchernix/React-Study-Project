@@ -26,6 +26,7 @@ function NotepadApp({ componentId }) {
         className="notepad-textarea"
         value={note}
         onChange={(e) => setNote(e.target.value)}
+        autoFocus
       ></textarea>
     </div>
   );
