@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Sidepanel.css";
 
+import { useTheme } from "./Context.jsx";
+
 export default function Window({
   id,
   x,
@@ -21,6 +23,8 @@ export default function Window({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [startSize, setStartSize] = useState({ width, height });
   const [startPos, setStartPos] = useState({ x, y });
+
+  const { themeColor, textColor, titleBarColor } = useTheme();
 
   const isFirstRender = useRef(true);
 
@@ -79,6 +83,7 @@ export default function Window({
     >
       <div
         className="title-bar"
+        style={{ backgroundColor: titleBarColor }}
         onMouseDown={(e) => {
           setDragging(true);
           setOffset({ x: e.clientX - x, y: e.clientY - y });
@@ -87,7 +92,12 @@ export default function Window({
         <span>{title}</span>
         <button onClick={() => onClose(id)}>×</button>
       </div>
-      <div className="window-content">{children}</div>
+      <div
+        className="window-content"
+        style={{ backgroundColor: themeColor, color: textColor }}
+      >
+        {children}
+      </div>
       <div
         className="resizer"
         onMouseDown={(e) => {

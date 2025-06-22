@@ -1,12 +1,11 @@
-import { useState } from "react";
-import  Board  from"./Board"
-// import "./App.css";
+import Board from "./Board";
+import { ThemeProvider } from "./Context.jsx";
 
 function App() {
   return (
-    <>
-      <Board/>
-    </>
+    <ThemeProvider>
+      <Board />
+    </ThemeProvider>
   );
 }
 

@@ -105,6 +105,8 @@
 }
 
 .draggable-window {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   background: white;
   border: 1px solid gray;
@@ -133,9 +135,9 @@
 }
 
 .window-content {
+  height: 100%;
   box-sizing: border-box;
   padding: 10px;
-  height: calc(100% - 30px);
   overflow: auto;
 }
 

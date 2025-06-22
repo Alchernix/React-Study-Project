@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { createContext } from "react";
 
 import "./Sidepanel.css";
 import SidePanelApp from "./Sidepanel";
