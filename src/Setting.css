@@ -1,0 +1,52 @@
+.ReactModal__Overlay {
+  z-index: 9999 !important;
+}
+
+.ReactModal__Content {
+  z-index: 10000 !important;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: auto;
+}
+
+.setting-inner1 {
+  display: flex;
+  padding-left: 10px;
+}
+
+.setting-close-btn {
+  margin-left: auto;
+  align-self: flex-start;
+  font-size: large;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.setting-inner {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
+  padding: 20px 10px;
+}
+
+.palette-container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.palette {
+  width: 60px;
+  height: 80px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.setting-category {
+  font-size: large;
+  font-weight: bold;
+  margin-bottom: 15px;
+}

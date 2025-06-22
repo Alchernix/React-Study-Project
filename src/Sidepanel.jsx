@@ -4,10 +4,13 @@ import WeatherApp from "./apps/WeatherApp";
 import YouTubeApp from "./apps/YouTubeApp";
 import ToDoListApp from "./apps/ToDoListApp";
 import LifeQuotesApp from "./apps/LifeQuotesApp";
+
+import Setting from "./Setting";
 import "./Sidepanel.css";
 
 export default function SidePanelApp({ openApp, windows }) {
   const [panelOpen, setPanelOpen] = useState(false);
+  const [isSettingOpen, setIsSettingOpen] = useState(false); // 설정창 상태변수
 
   const apps = [
     "NotepadApp",
@@ -54,8 +57,22 @@ export default function SidePanelApp({ openApp, windows }) {
         </div>
         <div className="panel-footer">
           <button className="footer-button">🪟 창 관리</button>
-          <button className="footer-button">⚙️ 설정</button>
+          <button
+            className="footer-button"
+            onClick={() => setIsSettingOpen(true)}
+          >
+            ⚙️ 설정
+          </button>
         </div>
+
+        <Setting
+          isOpen={isSettingOpen}
+          onClose={() => {
+            setIsSettingOpen(false);
+            setPanelOpen(false);
+          }}
+          zIndex={sidebarZINdex}
+        />
       </div>
     </div>
   );
