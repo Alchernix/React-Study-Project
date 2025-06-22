@@ -123,4 +123,4 @@ export default function WeatherApp() {
 WeatherApp.appName = "날씨";
 WeatherApp.Icon = () => <span style={{ fontSize: "24px" }}>🌤️</span>;
 WeatherApp.defaultWidth = 300;
-WeatherApp.defaultHeight = 500;
+WeatherApp.defaultHeight = 450;

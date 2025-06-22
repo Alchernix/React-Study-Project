@@ -8,7 +8,7 @@ import Window from "./WidgetContainer";
 import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
 import YouTubeApp from "./apps/YouTubeApp";
-import ToDoListApp from "./apps/ToDoListApp"
+import ToDoListApp from "./apps/ToDoListApp";
 
 //테스트용
 function clean_save() {
@@ -124,6 +124,7 @@ export default function Board() {
             onMouseUp={saveEdit}
           >
             <AppComponent
+              componentId={win.id}
               width={win.width}
               height={win.height}
               onResize={(w, h) => resizeWindow(win.id, w, h)}

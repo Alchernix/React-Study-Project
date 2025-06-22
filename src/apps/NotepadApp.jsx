@@ -1,10 +1,32 @@
-import React from "react";
+import { useEffect, useState, useRef } from "react";
+import "./NotepadApp.css";
+function NotepadApp({ componentId }) {
+  const [note, setNote] = useState("");
+  const isInitialMount = useRef(true);
 
-function NotepadApp() {
+  useEffect(() => {
+    const saved = localStorage.getItem(`note-${componentId}`);
+    if (saved !== null) {
+      setNote(saved);
+    }
+  }, [componentId]);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      localStorage.setItem(`note-${componentId}`, note);
+    }
+  }, [note, componentId]);
+
   return (
-    <div style={{ padding: "20px", fontSize: "18px" }}>
-      <h2>📝 Notepad</h2>
-      <p>여기에 메모 내용이 표시될 예정입니다.</p>
+    <div style={{ height: "100%" }}>
+      <textarea
+        type="text"
+        className="notepad-textarea"
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+      ></textarea>
     </div>
   );
 }

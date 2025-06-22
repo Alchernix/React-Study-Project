@@ -22,7 +22,7 @@ export default function Window({
   const [startSize, setStartSize] = useState({ width, height });
   const [startPos, setStartPos] = useState({ x, y });
 
-  const isFirstRender = useRef(true)
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -63,9 +63,11 @@ export default function Window({
     };
   }, [dragging, resizing, offset, startPos, startSize]);
 
-  useEffect(() => {isFirstRender.current = true}, [])
   useEffect(() => {
-    if (isFirstRender.current) isFirstRender.current = false
+    isFirstRender.current = true;
+  }, []);
+  useEffect(() => {
+    if (isFirstRender.current) isFirstRender.current = false;
     else if (!dragging && !resizing) onMouseUp(); //위치 크기 변경시 저장
   }, [dragging, resizing]);
 
