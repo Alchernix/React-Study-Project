@@ -3,6 +3,9 @@ import { useState, useRef, useEffect } from "react";
 import "./Sidepanel.css";
 import SidePanelApp from "./Sidepanel";
 import Window from "./WidgetContainer";
+import RoundWindow from "./RoundWindow";
+
+import { useTheme } from "./Context";
 
 import NotepadApp from "./apps/NotepadApp";
 import WeatherApp from "./apps/WeatherApp";
@@ -38,6 +41,7 @@ function loadWidgets() {
 export default function Board() {
   const [windows, setWindows] = useState([]);
   const windowIdCounter = useRef(0);
+  const { widgetWindowType } = useTheme();
 
   //저장 데이터 불러오기
   useEffect(() => {
@@ -108,7 +112,7 @@ export default function Board() {
       {windows.map((win) => {
         const AppComponent = apps_map[win.component];
         //console.log(AppComponent);
-        return (
+        return widgetWindowType === "window" ? (
           <Window
             key={win.id}
             id={win.id}
@@ -131,6 +135,29 @@ export default function Board() {
               onResize={(w, h) => resizeWindow(win.id, w, h)}
             />
           </Window>
+        ) : (
+          <RoundWindow
+            key={win.id}
+            id={win.id}
+            x={win.x}
+            y={win.y}
+            width={win.width}
+            height={win.height}
+            zIndex={win.zIndex}
+            title={AppComponent.appName}
+            onDrag={moveWindow}
+            onResize={resizeWindow}
+            onFocus={bringToFront}
+            onClose={closeWindow}
+            onMouseUp={saveEdit}
+          >
+            <AppComponent
+              componentId={win.id}
+              width={win.width}
+              height={win.height}
+              onResize={(w, h) => resizeWindow(win.id, w, h)}
+            />
+          </RoundWindow>
         );
       })}
     </div>

@@ -6,7 +6,7 @@ import { useTheme } from "./Context";
 Modal.setAppElement("#root");
 
 export default function Setting({ isOpen, onClose }) {
-  const { setThemeColor } = useTheme();
+  const { setThemeColor, setWidgetWindowType } = useTheme();
 
   function changeBgColor(color) {
     document.body.style.backgroundColor = color;
@@ -18,14 +18,23 @@ export default function Setting({ isOpen, onClose }) {
     localStorage.setItem(`themeColor`, color);
   }
 
+  function changeWidgetWindowType(type) {
+    setWidgetWindowType(type);
+    localStorage.setItem(`widgetWindowType`, type);
+  }
+
   useEffect(() => {
     const savedBgColor = localStorage.getItem(`bgColor`);
     const savedThemeColor = localStorage.getItem(`themeColor`);
+    const savedWindowType = localStorage.getItem("widgetWindowType");
     if (savedBgColor !== null) {
       changeBgColor(savedBgColor);
     }
     if (savedThemeColor !== null) {
       setThemeColor(savedThemeColor);
+    }
+    if (savedWindowType !== null) {
+      setWidgetWindowType(savedWindowType);
     }
   }, []);
 
@@ -92,6 +101,13 @@ export default function Setting({ isOpen, onClose }) {
               style={{ backgroundColor: "#2b2d42" }}
               onClick={() => changeThemeColor("#2b2d42")}
             ></div>
+          </div>
+        </div>
+        <div className="setting-inner">
+          <div className="setting-category">위젯 모양</div>
+          <div className="window-type-container">
+            <div onClick={() => changeWidgetWindowType("window")}>1번</div>
+            <div onClick={() => changeWidgetWindowType("round")}>2번</div>
           </div>
         </div>
       </Modal>
