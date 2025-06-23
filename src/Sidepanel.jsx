@@ -6,11 +6,13 @@ import ToDoListApp from "./apps/ToDoListApp";
 import LifeQuotesApp from "./apps/LifeQuotesApp";
 
 import Setting from "./Setting";
+import WinCtrl from "./WinCtrl";
 import "./Sidepanel.css";
 
-export default function SidePanelApp({ openApp, windows }) {
+export default function SidePanelApp({ openApp, windows, setWindows }) {
   const [panelOpen, setPanelOpen] = useState(false);
   const [isSettingOpen, setIsSettingOpen] = useState(false); // 설정창 상태변수
+  const [isWinCtrlOpen, setIsWinCtrlOpen] = useState(false)
 
   const apps = [
     "NotepadApp",
@@ -56,7 +58,7 @@ export default function SidePanelApp({ openApp, windows }) {
           })}
         </div>
         <div className="panel-footer">
-          <button className="footer-button">🪟 창 관리</button>
+          <button className="footer-button" onClick={() => setIsWinCtrlOpen(true)}>🪟 창 관리</button>
           <button
             className="footer-button"
             onClick={() => setIsSettingOpen(true)}
@@ -64,6 +66,8 @@ export default function SidePanelApp({ openApp, windows }) {
             ⚙️ 설정
           </button>
         </div>
+
+        {isWinCtrlOpen?<WinCtrl windows={windows} apply={setWindows}></WinCtrl>:<></>}
 
         <Setting
           isOpen={isSettingOpen}

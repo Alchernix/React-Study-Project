@@ -24,9 +24,10 @@ const apps_map = {
   LifeQuotesApp: LifeQuotesApp,
 };
 
+
 //위젯 위치 저장
-function saveWidgets(widgets) {
-  localStorage.setItem("Board", JSON.stringify(widgets));
+function saveWidgets(windows) {
+  localStorage.setItem("Board", JSON.stringify(windows));
   //  console.log(JSON.parse(localStorage.getItem("Board") || "[]"));
 }
 
@@ -101,9 +102,10 @@ export default function Board() {
     setWindows((prev) => newWindows);
   };
 
+
   return (
     <div className="app-bg">
-      <SidePanelApp openApp={openApp} windows={windows} />
+      <SidePanelApp openApp={openApp} windows={windows} setWindows={setWindows}/>
 
       {windows.map((win) => {
         const AppComponent = apps_map[win.component];
