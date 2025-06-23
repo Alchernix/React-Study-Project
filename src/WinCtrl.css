@@ -1,0 +1,71 @@
+
+
+.save-list {
+    flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.save-item {
+  display: flex;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 15px;
+  margin: 8px 0;
+  background-color: #f8f9facc;
+  border-radius: 8px;
+}
+
+
+#save_delete {
+  margin-left: auto;
+  padding: 5px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #dc3545;
+  color: white;
+}
+
+.save-inputbox {
+    width: 100%;
+    display: flex;
+    margin-top: auto;
+}
+
+input[type="save_name"] {
+  flex: 1;
+  padding: 8px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  margin-right: 12px;
+}
+
+#save_add {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.save_delete {
+    padding: 8px 16px;
+    margin: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: #6c757d;
+
+}

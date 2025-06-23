@@ -67,7 +67,12 @@ export default function SidePanelApp({ openApp, windows, setWindows }) {
           </button>
         </div>
 
-        {isWinCtrlOpen?<WinCtrl windows={windows} apply={setWindows}></WinCtrl>:<></>}
+        <WinCtrl isOpen={isWinCtrlOpen}
+        onClose={() => {
+            setIsWinCtrlOpen(false);
+            setPanelOpen(false);
+          }}
+          zIndex={sidebarZINdex} windows={windows} apply={setWindows}></WinCtrl>
 
         <Setting
           isOpen={isSettingOpen}
