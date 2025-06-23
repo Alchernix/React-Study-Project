@@ -6,6 +6,7 @@ export function ThemeProvider({ children }) {
   const [themeColor, setThemeColor] = useState("#ffffff");
   const [textColor, setTextColor] = useState("#000");
   const [titleBarColor, setTitleBarColor] = useState("#aacddc");
+  const [widgetWindowType, setWidgetWindowType] = useState("window");
 
   useEffect(() => {
     if (themeColor === "#ffffff") {
@@ -28,6 +29,8 @@ export function ThemeProvider({ children }) {
         setTextColor,
         titleBarColor,
         setTitleBarColor,
+        widgetWindowType,
+        setWidgetWindowType,
       }}
     >
       {children}
